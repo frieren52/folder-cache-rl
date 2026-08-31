@@ -16,6 +16,7 @@ case "${mode}" in
         python -c 'from pathlib import Path; files=list(Path("/workspace/03_静态语义向量生成").rglob("*.py")); [compile(path.read_text(encoding="utf-8"), str(path), "exec") for path in files]; print(f"static-encoder-syntax={len(files)} files ok")'
         python -c 'from pathlib import Path; files=list(Path("/workspace/04_动态历史向量生成").rglob("*.py")); [compile(path.read_text(encoding="utf-8"), str(path), "exec") for path in files]; print(f"history-encoder-syntax={len(files)} files ok")'
         python -c 'from pathlib import Path; files=list(Path("/workspace/05_监督微调").rglob("*.py")); [compile(path.read_text(encoding="utf-8"), str(path), "exec") for path in files]; import folder_cache_actor; print(f"actor-syntax={len(files)} files package={folder_cache_actor.__version__} ok")'
+        python -c 'from pathlib import Path; files=list(Path("/workspace/06_强化学习").rglob("*.py")); [compile(path.read_text(encoding="utf-8"), str(path), "exec") for path in files]; print(f"rl-syntax={len(files)} files ok")'
         pwsh -NoLogo -NoProfile -Command 'Add-Type -Path "/workspace/02_全局数据/pipelines/lru_baseline_analysis/simulate_lru.cs"; Write-Host "PowerShell=$($PSVersionTable.PSVersion) baseline-CSharp=ok"'
         pwsh -NoLogo -NoProfile -Command 'Add-Type -Path "/workspace/02_全局数据/pipelines/lru_miss_attribution_analysis/simulate_lru.cs"; Write-Host "miss-attribution-CSharp=ok"'
         ;;

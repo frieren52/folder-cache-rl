@@ -1,0 +1,1 @@
+{"schema_version": "dynamic-history-loss-history/v1", "epoch": 1, "learning_rate": 5.457193589265308e-05, "train": {"total": 1.9113743056367731, "access": 0.16409117340513973, "time": 1.5804703540938727, "count": 0.16681277813776071}, "validation": {"total": 1.8779002704016685, "access": 0.17414564153584702, "time": 1.5106453356280964, "count": 0.19310929323772497}}

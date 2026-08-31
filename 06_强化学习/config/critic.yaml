@@ -1,0 +1,25 @@
+model:
+  actor_state_dim: 256
+  resource_input_dim: 10
+  resource_hidden_dim: 64
+  critic_state_dim: 256
+  candidate_input_dim: 274
+  candidate_hidden_dim: 256
+  candidate_embedding_dim: 128
+  head_hidden_dim: 256
+  head_bottleneck_dim: 64
+  layer_norm_eps: 1.0e-5
+
+target:
+  polyak_tau: 0.005
+  n_step: 6
+  reward_half_life_seconds: 3600
+
+normalization:
+  epsilon: 1.0e-6
+  clip_standardized: null
+
+seeds:
+  q1: 2026
+  q2: 2027
+

@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [Parameter(Position = 0)]
-    [ValidateSet("build", "smoke", "shell", "baseline", "miss-attribution", "actor-test", "actor-build-vector-store", "actor-prepare-data", "actor-train", "actor-evaluate", "python", "pip", "run")]
+    [ValidateSet("build", "smoke", "shell", "baseline", "miss-attribution", "actor-test", "actor-build-vector-store", "actor-prepare-data", "actor-train", "actor-evaluate", "rl-test", "rl-build-replay", "rl-train-critic", "rl-train-actor", "rl-evaluate", "python", "pip", "run")]
     [string]$Action = "shell",
 
     [Parameter(Position = 1, ValueFromRemainingArguments = $true)]
@@ -111,6 +111,26 @@ try {
         "actor-evaluate" {
             & docker compose run --rm --no-TTY dev python "/workspace/05_监督微调/scripts/evaluate.py" @ActionArguments
             Assert-LastExitCode "05自然候选评价"
+        }
+        "rl-test" {
+            & docker compose run --rm --no-TTY dev python -m unittest discover -s "/workspace/06_强化学习/tests" -v @ActionArguments
+            Assert-LastExitCode "06单元测试"
+        }
+        "rl-build-replay" {
+            & docker compose run --rm --no-TTY dev python "/workspace/06_强化学习/scripts/build_replay.py" @ActionArguments
+            Assert-LastExitCode "06 Replay构建"
+        }
+        "rl-train-critic" {
+            & docker compose run --rm --no-TTY dev python "/workspace/06_强化学习/scripts/train_critic.py" @ActionArguments
+            Assert-LastExitCode "06 Critic训练"
+        }
+        "rl-train-actor" {
+            & docker compose run --rm --no-TTY dev python "/workspace/06_强化学习/scripts/train_actor_rl.py" @ActionArguments
+            Assert-LastExitCode "06 Actor强化训练"
+        }
+        "rl-evaluate" {
+            & docker compose run --rm --no-TTY dev python "/workspace/06_强化学习/scripts/evaluate.py" @ActionArguments
+            Assert-LastExitCode "06策略评价"
         }
         "python" {
             & docker compose run --rm --no-TTY dev python @ActionArguments

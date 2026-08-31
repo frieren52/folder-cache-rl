@@ -1,0 +1,44 @@
+runtime:
+  device: auto
+  dataloader_workers: 0
+  progress_interval_updates: 100
+  progress_interval_seconds: 60
+
+sampling:
+  seed: 2026
+  batch_macro_steps: 128
+  initial_replay_probability: 0.50
+  epsilon_replay_probability: 0.50
+  uniform_macro_probability: 0.50
+  nonzero_reward_probability: 0.50
+
+critic:
+  optimizer: adamw
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+  huber_delta: 1.0
+  gradient_clip_norm: 1.0
+  initial_max_updates: 10000
+  final_max_updates: 20000
+  calibration_interval_updates: 500
+  early_stopping_patience: 5
+
+actor:
+  optimizer: adamw
+  learning_rate: 0.00001
+  weight_decay: 0.0001
+  batch_macro_steps: 128
+  max_updates: 5000
+  calibration_interval_updates: 250
+  early_stopping_patience: 5
+  max_advantage_pairs_per_macro_step: 16
+  gradient_clip_norm: 1.0
+  lambda_anchor: 1.0
+
+protection:
+  max_count_hit_rate_drop_points: 1.0
+  max_wait_seconds_increase_ratio: 0.05
+  max_p95_p99_wait_increase_ratio: 0.10
+  max_physical_read_bytes_increase_ratio: 0.10
+  max_unused_prefetch_bytes_ratio: 0.30
+

@@ -1,0 +1,37 @@
+paths:
+  path_catalog: ../02_全局数据/artifacts/vocab/path_catalog.csv
+  access_dir: ../02_全局数据/raw
+  history_release: ../04_动态历史向量生成/outputs/releases/current
+  vector_store_dir: ../05_监督微调/data/vector_store
+  actor_checkpoint: ../05_监督微调/outputs/ckpt/trained/actor_supervised_final.pt
+  replay_root: data/versions
+  outputs_root: outputs
+
+time:
+  timezone: Asia/Shanghai
+  warmup_start: "2026-06-18T00:00:00+08:00"
+  train_start: "2026-06-19T00:00:00+08:00"
+  test_start: "2026-06-24T00:00:00+08:00"
+  test_end: "2026-06-25T00:00:00+08:00"
+  decision_interval_seconds: 10
+  decision_latency_seconds: 1
+  max_completion_horizon_seconds: 3600
+  calibration_hours: 6
+  settlement_hours: 1
+
+environment:
+  scenario_name: method_validation_30ch
+  channel_count: 30
+  bandwidth_bytes_per_second_per_channel: 209715200
+  fixed_setup_seconds: 0
+  cache_capacity_ratio: 0.03
+  max_prefetch_per_macro_step: 2
+  queue_policy: fifo
+  eviction_policy: lru
+
+storage:
+  snapshot_interval_macro_steps: 360
+  parquet_compression: zstd
+  rows_per_shard: 256
+  feature_dtype: float16
+

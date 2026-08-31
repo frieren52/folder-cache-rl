@@ -1,0 +1,23 @@
+retrieval:
+  static_top_k: 256
+  history_top_k: 256
+  union_max: 512
+  simple_greedy_top_k: 2
+
+initial_exploration:
+  simple_greedy_probability: 0.50
+  direct_stop_probability: 0.25
+  random_probability: 0.25
+  random_top32_probability: 0.80
+  random_all_probability: 0.20
+
+epsilon_greedy:
+  epsilon_start: 0.10
+  epsilon_end: 0.01
+  exploration_stop_probability: 0.50
+  exploration_top_k: 32
+
+selection:
+  tie_break: path_index_ascending
+  candidate_stop_tie: stop
+
