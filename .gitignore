@@ -63,6 +63,13 @@ tables/
 *.pth
 *.safetensors
 
+# Keep checkpoints produced under versioned training-output directories.
+!03_静态语义向量生成/outputs/**/*.safetensors
+!04_动态历史向量生成/outputs/**/*.pt
+!05_监督微调/outputs/**/*.pt
+!06_强化学习/outputs/**/*.pt
+!07_评估与消融实验/outputs/**/*.pt
+
 # Offline images and release archives
 release/
 *.tar
