@@ -40,20 +40,18 @@ venv/
 02_全局数据/artifacts/
 02_全局数据/processed/
 
-# Generated datasets, downloaded models, and experiment outputs
+# Generated datasets and downloaded models
 03_静态语义向量生成/data/
 03_静态语义向量生成/models/
-03_静态语义向量生成/outputs/
 04_动态历史向量生成/data/
-04_动态历史向量生成/outputs/
 05_监督微调/data/
-05_监督微调/outputs/
 06_强化学习/data/
-06_强化学习/outputs/
 07_评估与消融实验/data/
-07_评估与消融实验/outputs/
 figures/
 tables/
+
+# Training outputs are versioned in this private repository. Do not place raw
+# data or downloaded base models inside these directories.
 
 # Common model and dataset binaries
 *.bin
@@ -72,4 +70,3 @@ release/
 *.tgz
 *.zip
 *.7z
-

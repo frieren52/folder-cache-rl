@@ -1,0 +1,60 @@
+{
+  "schema_version": "static-semantic-evaluation/v1",
+  "sample_counts": {
+    "semantic": 164,
+    "instance": 164,
+    "final": 164
+  },
+  "losses": {
+    "total": 0.05509312450885773,
+    "semantic": 0.0428827702999115,
+    "instance": 0.023804165422916412,
+    "final": 0.00030378159135580063,
+    "collapse": 0.00022442788758780807
+  },
+  "triplet_metrics": {
+    "semantic": {
+      "accuracy": 0.9999999403953552,
+      "mean_margin": 0.20029211044311523
+    },
+    "instance": {
+      "accuracy": 0.9939023852348328,
+      "mean_margin": 0.4092780649662018
+    },
+    "final": {
+      "accuracy": 0.9999999403953552,
+      "mean_margin": 0.8359864354133606
+    }
+  },
+  "semantic_recall": {
+    "recall_at_10": 0.9867886178861789,
+    "valid_queries": 164,
+    "total_reliable_groups": 367,
+    "query_coverage": 0.44686648501362397
+  },
+  "thresholds": {
+    "passed": true,
+    "checks": {
+      "semantic_recall_at_10": {
+        "minimum": null,
+        "actual": 0.9867886178861789,
+        "passed": true
+      },
+      "semantic_triplet_accuracy": {
+        "minimum": null,
+        "actual": 0.9999999403953552,
+        "passed": true
+      },
+      "instance_triplet_accuracy": {
+        "minimum": null,
+        "actual": 0.9939023852348328,
+        "passed": true
+      },
+      "final_triplet_accuracy": {
+        "minimum": null,
+        "actual": 0.9999999403953552,
+        "passed": true
+      }
+    }
+  }
+}

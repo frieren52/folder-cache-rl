@@ -1,0 +1,64 @@
+{
+  "schema_version": "static-semantic-encoder-manifest/v1",
+  "model_version": "static-semantic-encoder/v1",
+  "data": {
+    "schema_version": "static-semantic-prepared/v1",
+    "input_files": {
+      "embedding_records": {
+        "path": "/workspace/02_全局数据/artifacts/path_sematic/embedding_records.csv",
+        "sha256": "f9292c2445852303b125e3447dd88ef2c979fdad5f9305b1576736a059008a15"
+      },
+      "semantic_catalog": {
+        "path": "/workspace/02_全局数据/artifacts/path_sematic/semantic_catalog.csv",
+        "sha256": "b04e63953dd5a77c83e20e3974cbec13715c3467fc1f2e3aa9da07a21086e043"
+      }
+    },
+    "split": {
+      "algorithm": "sha256-first-8-bytes-big-endian-mod-10",
+      "train_buckets": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "validation_buckets": [
+        8,
+        9
+      ],
+      "train_records": 42105,
+      "validation_records": 7817
+    },
+    "bge_cache_sha256": "333b1fb4832c137335feda936215c83020da6e88a055ddb1107887cb35e2332c"
+  },
+  "bge": {
+    "model_name": "BAAI/bge-m3",
+    "revision": "5617a9f61b028005a4858fdac845db406aefb181",
+    "resolved_commit": "5617a9f61b028005a4858fdac845db406aefb181"
+  },
+  "files": {
+    "static_encoder.safetensors": {
+      "size_bytes": 2420496,
+      "sha256": "b553aac57ff16eed320602f9e78be35d94d9ae2d177353b7791246b4a8c0c68a"
+    },
+    "model_config.json": {
+      "size_bytes": 9405,
+      "sha256": "0951037e1ecf6767ca010ec156da648b6bf1ebc3bd362f3a84fb7d42ed1e497c"
+    },
+    "evaluation_report.json": {
+      "size_bytes": 1432,
+      "sha256": "8e3891607b27af680492c20ef2da2000de765bf55752c447c2f2ff80f0b50102"
+    },
+    "loss_history.jsonl": {
+      "size_bytes": 173805,
+      "sha256": "8c80623edf8f9b20d0a5a7fca1efbd0dcaa7328e67873ede75791b19b003b0a4"
+    },
+    "loss_curves.png": {
+      "size_bytes": 468780,
+      "sha256": "4de8069f6bc6111806376cc448bf4b122b40fd33e4d538fc89c8dd984a4a180f"
+    }
+  }
+}
