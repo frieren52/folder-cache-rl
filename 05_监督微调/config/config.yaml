@@ -1,0 +1,77 @@
+paths:
+  path_catalog: ../02_全局数据/artifacts/vocab/path_catalog.csv
+  embedding_records: ../02_全局数据/artifacts/path_sematic/embedding_records.csv
+  access_dir: ../02_全局数据/raw
+  static_release: ../03_静态语义向量生成/outputs
+  static_base_model: ../03_静态语义向量生成/models/bge-m3
+  history_release: ../04_动态历史向量生成/outputs/releases/current
+  vector_store_dir: data/vector_store
+  dataset_root: data/versions
+  outputs_root: outputs
+
+time:
+  timezone: Asia/Shanghai
+  warmup_start: "2026-06-18T00:00:00+08:00"
+  train_start: "2026-06-19T00:00:00+08:00"
+  test_start: "2026-06-24T00:00:00+08:00"
+  test_end: "2026-06-25T00:00:00+08:00"
+  decision_interval_seconds: 10
+  target_horizon_seconds: 3600
+
+context:
+  max_objects: 256
+  recent_objects: 128
+  hot_window_seconds: 3600
+
+history_index:
+  active_window_seconds: 86400
+  recent_window_seconds: 3600
+  recent_refresh_seconds: 300
+  long_refresh_seconds: 3600
+  initial_recent_slots: 30
+  initial_long_slots: 360
+  encode_batch_size: 512
+
+retrieval:
+  static_top_k: 256
+  history_top_k: 256
+  fusion_top_k: 256
+
+sampling:
+  seed: 2026
+  max_positive_objects: 96
+  target_positive_per_layer: 24
+  deterministic_hot_per_layer: 8
+  negatives_per_positive: 3
+  negative_ratios: [0.45, 0.27, 0.18, 0.10]
+  shuffle_buffer_size: 4096
+
+model:
+  input_dim: 259
+  vector_dim: 128
+  hidden_dim: 256
+  transformer_layers: 4
+  transformer_heads: 4
+  transformer_ffn_dim: 512
+  dropout: 0.1
+  layer_norm_eps: 1.0e-5
+  pooling_mode: dot_product
+
+training:
+  device: auto
+  seed: 2026
+  optimizer: adamw
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+  batch_size: 32
+  dataloader_workers: 0
+  max_epochs: 20
+  gradient_clip_norm: 1.0
+  progress_interval_batches: 20
+  progress_interval_seconds: 60
+  amp: false
+
+storage:
+  rows_per_file_batch: 64
+  parquet_compression: zstd
+  history_vector_dtype: float16

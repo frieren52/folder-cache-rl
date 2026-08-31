@@ -1,0 +1,19 @@
+name: folder-cache-rl
+
+services:
+  dev:
+    image: folder-cache-rl:dev
+    platform: linux/amd64
+    gpus: all
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /workspace
+    init: true
+    stdin_open: true
+    tty: true
+    volumes:
+      # 开发时直接使用宿主机源码；原始日志再用只读挂载覆盖保护。
+      - .:/workspace
+      - ./02_全局数据/raw:/workspace/02_全局数据/raw:ro
+    command: ["shell"]

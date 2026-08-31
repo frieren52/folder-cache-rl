@@ -1,0 +1,107 @@
+paths:
+  embedding_records: ../02_全局数据/artifacts/path_sematic/embedding_records.csv
+  semantic_catalog: ../02_全局数据/artifacts/path_sematic/semantic_catalog.csv
+  data_dir: data
+  output_dir: outputs
+
+bge:
+  model_name: BAAI/bge-m3
+  revision: 5617a9f61b028005a4858fdac845db406aefb181
+  local_path: models/bge-m3
+  download_endpoint: https://hf-mirror.com
+  download_workers: 4
+  max_length: 256
+  batch_size: 8
+  precision: float16
+  cache_dtype: float16
+
+model:
+  bge_dim: 1024
+  hidden_dim: 256
+  semantic_dim: 64
+  date_dim: 16
+  instance_dim: 64
+  output_dim: 128
+  dropout: 0.1
+  layer_norm_eps: 1.0e-5
+
+sampling:
+  seed: 2026
+  semantic_strong_positive_ratio: 0.70
+  semantic_hard_negative_ratio: 0.70
+  instance_hard_negative_ratio: 0.70
+
+loss:
+  margin: 0.15
+  semantic_distill_weight: 0.25
+  attribute_weight: 0.20
+  instance_task_weight: 0.50
+  date_weight: 0.20
+  source_weight: 0.10
+  final_task_weight: 1.00
+  collapse_weight: 0.02
+  collapse_target_std: 0.05
+  collapse_eps: 1.0e-4
+
+train:
+  optimizer: AdamW
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  batch_size: 256
+  max_epochs: 200
+  early_stopping_patience: 15
+  gradient_clip_norm: 1.0
+  scheduler:
+    name: ReduceLROnPlateau
+    factor: 0.5
+    patience: 5
+    threshold: 0.001
+    min_learning_rate: 1.0e-5
+
+evaluation:
+  semantic_recall_k: 10
+  thresholds:
+    semantic_recall_at_10: null
+    semantic_triplet_accuracy: null
+    instance_triplet_accuracy: null
+    final_triplet_accuracy: null
+
+# 超参数选择简报。该部分仅记录实验依据，不参与训练逻辑。
+hyperparameter_report:
+  reference_run:
+    hardware: NVIDIA GeForce RTX 3060 Laptop GPU 6GB
+    train_triplets_per_task: 968
+    validation_triplets_per_task: 164
+    best_epoch: 200
+    best_validation_total: 0.055093
+    semantic_recall_at_10: 0.986789
+    instance_triplet_accuracy: 0.993902
+    final_triplet_accuracy: 1.0
+  conclusions:
+    - BGE batch_size=8 与 FP16 已完成全量 49922 条目录编码，无显存溢出。
+    - 训练 batch_size=256 每轮约四次参数更新，兼顾样本利用和梯度稳定性，不随显存盲目增大。
+    - AdamW、learning_rate=0.001 和 weight_decay=0.0001 在 200 轮内训练稳定，无 NaN。
+    - ReduceLROnPlateau 在第 178 轮将学习率降至 0.0005，随后验证损失继续下降。
+    - margin、任务权重和采样比例为首版业务设定，尚未进行系统超参数搜索。
+
+# V100 单卡只覆盖下列必要参数；分档依据是任务启动前的实际空闲显存，而不是显卡总显存。
+v100_single_gpu_overrides:
+  notes:
+    - 直接复用 bge_cache.npz 时无需修改当前配置。
+    - 重新生成 BGE 缓存或进行批量在线编码时，仅按空闲显存调整 bge.batch_size。
+    - 其他训练参数保持当前值，避免改变每轮更新次数和已经验证的收敛行为。
+  by_free_vram:
+    less_than_3_gb:
+      bge:
+        batch_size: 4
+    3_to_6_gb:
+      overrides: {}
+    6_to_12_gb:
+      bge:
+        batch_size: 16
+    12_to_20_gb:
+      bge:
+        batch_size: 32
+    at_least_20_gb:
+      bge:
+        batch_size: 64

@@ -1,0 +1,91 @@
+history:
+  sample_start: "2026-06-19T00:00:00+08:00"
+  snapshot_stride_seconds: 10
+  scales:
+    - {name: second, window_seconds: 60, bucket_seconds: 1, bucket_count: 60}
+    - {name: short, window_seconds: 300, bucket_seconds: 5, bucket_count: 60}
+    - {name: medium, window_seconds: 3600, bucket_seconds: 60, bucket_count: 60}
+    - {name: long, window_seconds: 86400, bucket_seconds: 900, bucket_count: 96}
+  interval_clip_seconds: 86400
+  state_features:
+    continuous: [log_recency_seconds, log_last_distinct_interval_seconds]
+    missing_flags: [no_history, no_valid_interval]
+
+model:
+  vector_dim: 128
+  state_input_dim: 4
+  tcn_channels: 128
+  tcn_kernel_size: 3
+  tcn_dilations: [1, 2, 4]
+  transformer_layers: 4
+  transformer_heads: 4
+  transformer_ffn_dim: 512
+  state_hidden_dim: 64
+  fusion_hidden_dim: 256
+  count_hidden_dim: 64
+  dropout: 0.1
+
+target:
+  horizon_seconds: 3600
+  time_boundaries_seconds: [0, 5, 10, 30, 60, 120, 300, 600, 1800, 3600]
+
+sampling:
+  high_history_per_snapshot: 12
+  medium_history_per_snapshot: 12
+  low_history_per_snapshot: 8
+  single_history_per_snapshot: 4
+  no_history_per_snapshot: 4
+  history_low_quantile: 0.5
+  history_high_quantile: 0.9
+  seed: 2026
+
+storage:
+  max_rows_per_shard: 100000
+  max_rows_per_row_group: 10000
+  compression: zstd
+  compression_level: 3
+  parquet_version: "2.6"
+
+split:
+  type: chronological
+  ratio_basis: usable_snapshot_count
+  train_ratio: 0.8
+  validation_ratio: 0.2
+  boundary_alignment_seconds: 10
+  purge_by_label_horizon: true
+
+loss:
+  access_weight: 1.0
+  time_weight: 1.0
+  count_weight: 1.0
+  huber_delta: 1.0
+
+training:
+  device: auto
+  precision: auto
+  distributed: false
+  dataloader_workers: 4
+  seed: 2026
+  optimizer: adamw
+  learning_rate: 0.0001
+  adam_betas: [0.9, 0.999]
+  adam_epsilon: 1.0e-8
+  weight_decay: 0.0001
+  micro_batch_size: 1024
+  gradient_accumulation_steps: 1
+  progress_interval_batches: 20
+  progress_interval_seconds: 60
+  gradient_clip_norm: 1.0
+  max_epochs: 30
+  early_stopping_patience: 5
+  early_stopping_min_delta: 0.0001
+  warmup_ratio: 0.05
+  min_learning_rate: 0.000001
+
+evaluation:
+  thresholds_provisional: true
+  baseline_window_seconds: 3600
+  probability_clip_epsilon: 1.0e-12
+  min_brier_relative_improvement: 0.05
+  min_count_mae_relative_improvement: 0.05
+  max_nll_relative_increase: 0.0

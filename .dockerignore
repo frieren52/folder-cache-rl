@@ -1,0 +1,39 @@
+.git
+.gitignore
+.idea
+.vscode
+.codex
+
+**/__pycache__/
+**/*.py[cod]
+**/.pytest_cache/
+**/.mypy_cache/
+**/.ruff_cache/
+**/.venv/
+**/venv/
+
+# 敏感且体积较大的输入数据由运行时只读挂载。
+02_全局数据/raw/
+
+# 可再生成的分析、训练和评估输出不进入镜像。
+02_全局数据/analysis/
+03_静态语义向量生成/data/*.parquet
+03_静态语义向量生成/data/*.npz
+03_静态语义向量生成/data/data_meta.json
+03_静态语义向量生成/models/
+04_动态历史向量生成/data/
+05_监督微调/data/
+**/outputs/
+figures/
+tables/
+
+# 离线镜像与临时打包产物不能再次进入构建上下文。
+release/
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.7z
+
+.env
+*.log
